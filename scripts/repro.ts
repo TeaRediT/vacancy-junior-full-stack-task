@@ -102,7 +102,7 @@ async function main() {
     // Фактично до фіксу: 100 USD просто додавалися як 100 EUR до рахунку Bob.
     const res = await transferMoney({
       fromAccountId: "acc-alice", // USD
-      toAccountId: "acc-bob", // EUR
+      toAccountId: "acc-carol", // EUR
       amount: 100,
     });
     console.log("Результат виклику:", res);
@@ -137,6 +137,11 @@ async function main() {
     const successCount = results.filter((r) => r.success).length;
     console.log(`Успішних запитів: ${successCount} із 10`);
   });
+
+  const history = await prisma.transfer.findMany({
+    orderBy: { createdAt: "desc" },
+  });
+  console.log("Історія переказів:", history);
 }
 
 main()
